@@ -13,7 +13,13 @@ const dummyData = [{
 const TodoScreen = () => {
 
   //Initialize local State
+  const [todo, setTodo] = useState("")
+  const [todoList, setTodoList] = useState([])
   
+  //handle add todo
+  const handleAddTodo = ()=>{
+    setTodoList([...todoList, {id: Date.now().toString(), title: todo}])
+  }
 
   //Render todo
   const renderTodos = ({item, index}) => {
@@ -48,7 +54,8 @@ const TodoScreen = () => {
             paddingHorizontal: 16,
         }}
         placeholder='Add a new task'
-        
+        value= {todo}
+        onChangeText={(userText)=> setTodo(userText)}
       />
         <TouchableOpacity 
             style={{
@@ -58,13 +65,14 @@ const TodoScreen = () => {
                 marginVertical: 34,
                 alignItems: 'center',
             }}
+            onPress={()=> handleAddTodo()} 
         >
             <Text style={{color:"#fff", fontWeight:"bold", fontSize: 20}}>
                 Add
             </Text>
         </TouchableOpacity>
         {/*Render todo List*/}
-        <FlatList data={dummyData} renderItem={renderTodos}/>
+        <FlatList data={todoList} renderItem={renderTodos}/>
     </View>
   )
 }
